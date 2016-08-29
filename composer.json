@@ -1,0 +1,16 @@
+{
+    "name": "matt-bernhardt/dvorak",
+    "description": "A simple wordpress theme to work through using Composer for third-party libraries",
+    "require": {
+        "fortawesome/font-awesome": "^4.6",
+        "toriphes/yii2-widget-lazyload": "^1.0",
+        "twbs/bootstrap": "^3.3"
+    },
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Matt Bernhardt",
+            "email": "mjbernha@mit.edu"
+        }
+    ]
+}
