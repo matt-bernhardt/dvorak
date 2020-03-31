@@ -1,0 +1,15 @@
+/*
+Theme Name: Dvorak
+Author: Matt Bernhardt
+Author URI: https://orcid.org/0000-0001-8446-8679
+Version: 0.1.0
+
+Template: twentynineteen
+
+A simple Wordpress theme to work out how to use Composer to manage dependencies
+
+*/
+
+body {
+	background-color: rebeccapurple;
+}
