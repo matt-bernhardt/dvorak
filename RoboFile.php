@@ -11,5 +11,10 @@ class RoboFile extends \Robo\Tasks {
 	 */
 	public function build() {
 		$this->say( 'Building theme...' );
+		$this->taskScss([
+			'css/global.scss' => 'css/build/global.css',
+		])
+		->importDir( 'css/' )
+		->run();
 	}
 }

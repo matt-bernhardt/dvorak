@@ -1,0 +1,18 @@
+name: Build stylesheets
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches: [ master ]
+jobs:
+  build_css:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout theme
+        uses: actions/checkout@v2
+      - name: Compile global stylesheet
+        uses: gha-utilities/sass-build@v0.2.2
+        with:
+          source: css/global.scss
+          destination: css/build/global.css
