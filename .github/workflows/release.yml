@@ -4,7 +4,7 @@ on:
     branches:
       - master
 jobs:
-  build_css:
+  update_branch:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source Git branch
@@ -22,7 +22,7 @@ jobs:
       - name: Checkout destination Git branch
         uses: actions/checkout@v2
         with:
-            ref: release-prep
+            ref: release
             fetch-depth: 1
 
       - name: Move compiled CSS to path within release branch
@@ -39,15 +39,25 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: release-prep
+          branch: release
 
-      - name: Initialize Pull Request
-        uses: gha-utilities/init-pull-request@v0.0.4
+  create_release:
+    needs: update_branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@release
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          pull_request_token: ${{ secrets.GITHUB_TOKEN }}
-          head: release-prep
-          base: release
-          title: 'Updates site files from latest Actions build'
-          body: >
-            Perhaps a multi-line description
-            about latest features and such.
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            This release created automatically. Changes made include:
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
