@@ -28,7 +28,7 @@ jobs:
             fetch-depth: 1
 
       - name: Move compiled CSS to path within release branch
-        run: mv /tmp/repo-name/assets/css css/build/
+        run: mv /tmp/dvorak/assets/css css/build/
 
       - name: Add and Commit changes to release branch
         run: |
