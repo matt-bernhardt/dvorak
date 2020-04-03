@@ -9,8 +9,6 @@ jobs:
     steps:
       - name: Checkout source Git branch
         uses: actions/checkout@v2
-        with:
-            ref: master
 
       - name: Make destination directory for compiled CSS
         run: mkdir -vp /tmp/dvorak/assets/css
@@ -28,13 +26,13 @@ jobs:
             fetch-depth: 1
 
       - name: Move compiled CSS to path within release branch
-        run: mv /tmp/dvorak/assets/css css/build/
+        run: mv /tmp/dvorak/assets/css/global.css css/build/global.css
 
       - name: Add and Commit changes to release branch
         run: |
           git config --local user.email 'action@github.com'
           git config --local user.name 'GitHub Action'
-          git add css/build/*
+          git add -f css/build/*
           git commit -m 'Updates compiled CSS files'
 
       - name: Push changes
