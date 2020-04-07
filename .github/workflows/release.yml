@@ -17,10 +17,20 @@ jobs:
           destination: css/build/global.css
 
       - name: Create swap directory
-        run: mkdir -vp /tmp/dvorak
+        run: |
+          mkdir -vp /tmp/dvorak
 
       - name: Copy compiled theme to swap directory
-        run: cp -R * . /tmp/dvorak
+        run: |
+          cp -R * . /tmp/dvorak
+
+      - name: DEBUG check swap directory
+        run: |
+          ls -l /tmp/dvorak
+
+      - name: DEBUG 1 compare release and swap locations
+        run: |
+          diff . /tmp/dvorak
 
       - name: Checkout release branch
         uses: actions/checkout@v2
@@ -29,12 +39,14 @@ jobs:
             fetch-depth: 1
 
       - name: Copy compiled theme from swap directory
-        run: cp -R * /tmp/dvorak .
+        run: |
+          rsync -rlDz --delete --exclude '.git' /tmp/dvorak/ .
 
       - name: Add and commit changes to release branch
         run: |
           git config --local user.email 'action@github.com'
           git config --local user.name 'GitHub Action'
+          git add .
           git add -f css/build/*
           git commit -m 'Updates theme including compiled assets'
 
