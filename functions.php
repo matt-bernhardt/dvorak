@@ -29,9 +29,15 @@ function dvorak_enqueue_styles() {
 		wp_get_theme()->get( 'Version' )
 	);
 	wp_enqueue_style(
+		'compiled-stylesheet',
+		get_stylesheet_directory_uri() . '/css/build/global.css',
+		'',
+		wp_get_theme()->get( 'Version' )
+	);
+	wp_enqueue_style(
 		'child-style',
 		get_stylesheet_directory_uri() . '/style.css',
-		array( $parent_style ),
+		array( $parent_style, 'compiled-stylesheet' ),
 		wp_get_theme()->get( 'Version' )
 	);
 }
