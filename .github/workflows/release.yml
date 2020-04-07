@@ -4,36 +4,40 @@ on:
     branches:
       - master
 jobs:
-  update_branch:
+  update_release:
+    needs: build_assets
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source Git branch
+      - name: Checkout theme source
         uses: actions/checkout@v2
 
-      - name: Make destination directory for compiled CSS
-        run: mkdir -vp /tmp/dvorak/assets/css
-
-      - name: Compile CSS from SCSS files
+      - name: Compile stylesheet
         uses: gha-utilities/sass-build@v0.2.2
         with:
           source: css/global.scss
-          destination: /tmp/dvorak/assets/css/global.css
+          destination: css/build/global.css
 
-      - name: Checkout destination Git branch
+      - name: Create swap directory
+        run: mkdir -vp /tmp/dvorak
+
+      - name: Copy compiled theme to swap directory
+        run: cp -R * . /tmp/dvorak
+
+      - name: Checkout release branch
         uses: actions/checkout@v2
         with:
             ref: release
             fetch-depth: 1
 
-      - name: Move compiled CSS to path within release branch
-        run: mv /tmp/dvorak/assets/css/global.css css/build/global.css
+      - name: Copy compiled theme from swap directory
+        run: cp -R * /tmp/dvorak .
 
-      - name: Add and Commit changes to release branch
+      - name: Add and commit changes to release branch
         run: |
           git config --local user.email 'action@github.com'
           git config --local user.name 'GitHub Action'
           git add -f css/build/*
-          git commit -m 'Updates compiled CSS files'
+          git commit -m 'Updates theme including compiled assets'
 
       - name: Push changes
         uses: ad-m/github-push-action@master
@@ -42,11 +46,12 @@ jobs:
           branch: release
 
   create_release:
-    needs: update_branch
+    needs: update_release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@release
+        uses: actions/checkout@v2
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@latest
