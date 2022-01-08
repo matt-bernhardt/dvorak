@@ -2,7 +2,7 @@ name: Update release branch
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   update_release:
     runs-on: ubuntu-latest
