@@ -10,9 +10,9 @@
         }
     ],
     "require": {
-        "fortawesome/font-awesome": "^4.6",
-        "twbs/bootstrap": "^3.3",
-        "consolidation/robo": "^2.0",
+        "fortawesome/font-awesome": "^5",
+        "twbs/bootstrap": "^5",
+        "consolidation/robo": "^3",
         "scssphp/scssphp": "^1.0"
     },
     "scripts": {
